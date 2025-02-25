@@ -12,17 +12,18 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 80, host: 5000
 
   config.vm.provision "shell", inline: <<-SHELL
-     apt-get update
-     apt-get install -y git nano vim python-is-python3 python3-venv python3-pip
+     sudo apt-get update
+     sudo apt-get install -y git nano vim python-is-python3 python3-venv python3-pip
      sudo python -m venv flask_venv
-     sudo source flask_venv/bin/activate
-     sudo pip install Flask
-     sudo touch hello.py
-     "from flask import Flask
-      app = Flask(__name__)
-      @app.route('/')
-      def hello():
-      	return '<p>Hello, World!</p>'" >> hello.py
-      sudo flask --app hello run --host=0.0.0.0
+     source flask_venv/bin/activate
+     pip install Flask
+     touch hello.py
+     echo "from flask import Flask" >> hello.py
+     echo "app = Flask(__name__)" >> hello.py
+     echo "@app.route('/')" >> hello.py
+     echo "def hello():" >> hello.py
+     echo "	return '<p>Hello, World!</p>'" >> hello.py" >> hello.py
+     sudo flask --app hello run --host=0.0.0.0
+
   SHELL
 end
